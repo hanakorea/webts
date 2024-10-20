@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="./layout/header.jsp" %>
+<%@ include file="../layout/header.jsp" %>
 	
 <form method="POST" action="/login">
 	<label for="username" class="form-label">userName:</label>
@@ -9,4 +9,4 @@
 
 	
 
-<%@ include file="./layout/footer.jsp" %>
+<%@ include file="../layout/footer.jsp" %>
