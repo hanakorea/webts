@@ -1,7 +1,10 @@
 package com.example.webts.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,12 +31,39 @@ public class UserController {
 	@ResponseBody
 	public ResponseDTO<?> signup(@RequestBody User user) {
 
-		User userSignup = userService.userFind(user.getUsername());
+		User userCheckID = userService.userID(user.getUsername());
+		User userCheckEmail = userService.userFind(user.getEmail());
 		
-		if(userSignup.getUsername() == null) {
+		if(userCheckID.getUsername() == null && userCheckEmail.getEmail() == null ) {
 			userService.userSet(user);
 			return new ResponseDTO<>(HttpStatus.OK.value(), user.getUsername() +"님 회원가입 완료");
 		}
-		return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), user.getUsername() + "이미 사용 중인 아이디");
+		
+		if(userCheckID.getUsername() != null) {
+			return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), user.getUsername() + "중복 아이디");
+		}
+		return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), user.getEmail() + "이미 사용 중인 이메일");
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "user/login";
+	}
+	
+	@PostMapping("/login")
+	public String login(String email, String password, Model model, HttpSession session) {
+		User user = userService.userFind(email);
+		
+		if(user != null && user.getEmail() != null) {	
+			if(password.equals(user.getPassword())){
+				session.setAttribute("principal", user);
+				return "redirect:/";
+			}else {
+				model.addAttribute("passwordER", "유효하지 않은 비밀번호");
+			}
+		}else {
+			model.addAttribute("emailER", " 유효하지 않은 이메일");			
+		}
+		return "user/login";
 	}
 }

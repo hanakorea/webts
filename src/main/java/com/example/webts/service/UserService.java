@@ -19,8 +19,14 @@ public class UserService {
 		userRepository.save(user);
 	}
 	
-	public User userFind(String username) {
+	public User userID(String username) {
 		User user = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
+		return user;
+	}
+	public User userFind(String Email) {
+		User user = userRepository.findByEmail(Email).orElseGet(()->{
 			return new User();
 		});
 		return user;

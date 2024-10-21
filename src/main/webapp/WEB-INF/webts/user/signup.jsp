@@ -21,7 +21,7 @@
        <input type="radio" name="gender" value="man" > 남자
        <input type="radio" name="gender" value="woman" > 여자
      </div>
-     <button id="btn-save" type="submit" class="btn btn-primary">회원가입</button>
+     <button id="btn-save" type="submit" class="btn btn-secondary">회원가입</button>
 </form>
 	
 <script src="js/user.js"></script>
