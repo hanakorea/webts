@@ -31,4 +31,15 @@ public class UserService {
 		});
 		return user;
 	}
+	
+	public User userUpdate(User user){
+		User userUpdate = userFind(user.getEmail());
+		
+		userUpdate.setUsername(user.getUsername());
+		userUpdate.setPassword(user.getPassword());
+		
+		userRepository.save(userUpdate);
+		
+		return userUpdate;
+	}
 }

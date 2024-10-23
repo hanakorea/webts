@@ -25,18 +25,22 @@
         <li class="nav-item">
           <a class="nav-link" href="#">피드</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            회원
           </a>
+          <c:if test="${empty principal}">
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/signup">회원가입</a></li>
             <li><a class="dropdown-item" href="/login">로그인</a></li> <!-- 로그인시 변경 필요 -->
-            <li><a class="dropdown-item" href="#">회원정보</a></li>
           </ul>
+          </c:if>
+         <c:if test="${not empty principal}">
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/logout">로그아웃</a></li> <!-- 로그인시 변경 필요 -->
+            <li><a class="dropdown-item" href="/userinfo">회원정보</a></li>
+          </ul>
+          </c:if>
         </li>
       </ul>
     </div>
