@@ -42,4 +42,9 @@ public class UserService {
 		
 		return userUpdate;
 	}
+	
+	public void userDelete(String email) {
+		User user = userRepository.findByEmail(email).get();
+		userRepository.deleteById(user.getId());
+	}
 }

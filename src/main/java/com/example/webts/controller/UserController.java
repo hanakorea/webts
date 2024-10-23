@@ -1,14 +1,17 @@
 package com.example.webts.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -92,5 +95,14 @@ public class UserController {
 		 return new ResponseDTO<>(HttpStatus.OK.value(),"정보 수정 완료");
 	 }
 	 return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), "중복된 닉네임 사용불가");
+	}
+	
+// 탈퇴
+	@DeleteMapping("/userdelete")
+	@ResponseBody
+	public ResponseDTO<?> userDelete(@RequestParam String email, HttpSession session){
+		userService.userDelete(email);
+		session.removeAttribute("principal");
+		return new ResponseDTO<>(HttpStatus.OK.value(), "탈퇴 완료");
 	}
 }

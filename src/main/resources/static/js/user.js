@@ -8,6 +8,9 @@ const userObject = {
 		$("#btn-update").on('click', (e)=>{
 			e.preventDefault();
 			this.update();
+		}),
+		$("#btn-delete").on('click', ()=>{
+			this.delete();
 		})
 		
 	},
@@ -66,6 +69,25 @@ const userObject = {
 		}).fail(function(error){
 			console.log(error)
 		})
+		},
+		delete : function(){
+			if(!confirm('탈퇴를 진행하시겠습니까?')){
+				return;
+			}
+			
+			alert("탈퇴 진행중")
+			
+			const email = $("#email").val()
+			
+			$.ajax({
+				type:"DELETE",
+				url:"/userdelete?email="+email
+			}).done(function(response){
+				alert(response.data)
+				location.href="/"
+			}).fail(function(error){
+				console.log(error)
+			})
 	}
 	
 	
