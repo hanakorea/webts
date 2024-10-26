@@ -47,4 +47,7 @@ public class UserService {
 		User user = userRepository.findByEmail(email).get();
 		userRepository.deleteById(user.getId());
 	}
+	
 }
+
+

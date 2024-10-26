@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="layout/header.jsp"%>
 	<h1>${principal.username}</h1>
-	<h2>${principal}</h2>
+	<h2>${userbody}</h2>
 	<c:if test="${not empty logoutMsg}">
 	 <div class="alert alert-success">${logoutMsg}</div>
 	</c:if>

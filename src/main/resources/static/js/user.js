@@ -5,12 +5,16 @@ const userObject = {
 			this.save();
 		}),
 		
-		$("#btn-update").on('click', (e)=>{
+		$("#btn-update").on("click", (e)=>{
 			e.preventDefault();
 			this.update();
 		}),
-		$("#btn-delete").on('click', ()=>{
+		$("#btn-delete").on("click", ()=>{
 			this.delete();
+		}),
+		$("#btn-cal").on("click", (e)=>{
+			e.preventDefault();
+			this.cal();
 		})
 		
 	},
@@ -45,9 +49,9 @@ const userObject = {
 	
 	update : function(){
 		const user={
-			username : $('#username').val(),
-			email : $('#email').val(),
-			password : $('#password').val()
+			username: $("#username").val(),
+			password: $("#password").val(),
+			email: $("#email").val()
 		}
 		
 		if(!user.username||!user.password){
@@ -57,18 +61,19 @@ const userObject = {
 			return;
 		}
 		$.ajax({
-			type:"PUT",
-			url:"/userinfo",
-			data:JSON.stringify(user),
-			contentType:"application/json;charset=UFT-8"
-		}).done(function(response){
-			alert(response.data)
+		    type: "PUT",
+		    url: "/userinfo",
+		    data: JSON.stringify(user),
+		    contentType: "application/json;charset=UTF-8"
+		}).done(function(response) {
+		    alert(response.data);
 			if(response.status == 200){
 				location.href = '/';
 			}
-		}).fail(function(error){
-			console.log(error)
-		})
+		}).fail(function(error) {
+		    console.log(error);
+		});
+
 		},
 		delete : function(){
 			if(!confirm('탈퇴를 진행하시겠습니까?')){
@@ -88,8 +93,35 @@ const userObject = {
 			}).fail(function(error){
 				console.log(error)
 			})
-	}
-	
+		},
+		
+		cal : function(){
+			const userBody = {
+				gender : $("#gender_cal").val(),
+				weight : $("#weight").val(),
+				height : $("#height").val(),
+				age : $("#age").val(),
+				active : $("input[name='active']:checked").val()
+			}
+			if(!userBody.weight||!userBody.height||!userBody.age||!userBody.active){
+				alert("모든 정보를 입력해 주세요")
+				return;
+			}
+			
+			console.log("보내는 데이터:", userBody); 
+			
+			$.ajax({
+				type : "POST",
+				url : "/usercal",
+				data : JSON.stringify(userBody),
+				contentType:"application/json;charset=UTF-8"
+			}).done(function(response){
+				alert(response.data)
+				location.href = "/";
+			}).fail(function(error){
+				console.log(error)
+			})
+		}
 	
 }
 

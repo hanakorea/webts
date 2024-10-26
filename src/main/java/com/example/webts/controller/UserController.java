@@ -3,6 +3,7 @@ package com.example.webts.controller;
 import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.webts.DTO.ResponseDTO;
 import com.example.webts.domain.User;
+import com.example.webts.domain.UserBody;
 import com.example.webts.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -84,18 +86,25 @@ public class UserController {
 	}
 	
 	@PutMapping("/userinfo")
-	@ResponseBody
-	public ResponseDTO<?> userUpdate(@RequestBody User user, HttpSession session){
-	 User userCheck = userService.userID(user.getUsername());
-	 
-	 if(userCheck.getUsername().equals(user.getUsername()) ||
-			 userCheck.getUsername() == null ) {
-		 User userUpdate = userService.userUpdate(user);
-		 session.setAttribute("principal", userUpdate);
-		 return new ResponseDTO<>(HttpStatus.OK.value(),"정보 수정 완료");
-	 }
-	 return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), "중복된 닉네임 사용불가");
-	}
+    @ResponseBody
+    public ResponseDTO<?> userUpdate(@RequestBody User user, HttpSession session) {
+        try {
+            User userCheck = userService.userID(user.getUsername());
+
+            if (userCheck.getUsername() == null || userCheck.getUsername().equals(user.getUsername())) {
+                User userUpdate = userService.userUpdate(user);
+                session.setAttribute("principal", userUpdate);
+                return new ResponseDTO<>(HttpStatus.OK.value(), "정보 수정 완료");
+            }
+
+            return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), "중복된 닉네임 사용 불가");
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), "이미 사용 중인 값입니다.");
+        } catch (Exception e) {
+            return new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "서버 오류: " + e.getMessage());
+        }
+	    }   
+
 	
 // 탈퇴
 	@DeleteMapping("/userdelete")
@@ -105,4 +114,7 @@ public class UserController {
 		session.removeAttribute("principal");
 		return new ResponseDTO<>(HttpStatus.OK.value(), "탈퇴 완료");
 	}
+	
+
+
 }
