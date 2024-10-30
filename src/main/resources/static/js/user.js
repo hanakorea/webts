@@ -11,12 +11,7 @@ const userObject = {
 		}),
 		$("#btn-delete").on("click", ()=>{
 			this.delete();
-		}),
-		$("#btn-cal").on("click", (e)=>{
-			e.preventDefault();
-			this.cal();
-		})
-		
+		})	
 	},
 	
 	save:function(){
@@ -68,6 +63,9 @@ const userObject = {
 		}).done(function(response) {
 		    alert(response.data);
 			if(response.status == 200){
+			 if(!confirm("메인으로 이동하시겠습니까?")){
+				return;
+				}
 				location.href = '/';
 			}
 		}).fail(function(error) {
@@ -93,36 +91,7 @@ const userObject = {
 			}).fail(function(error){
 				console.log(error)
 			})
-		},
-		
-		cal : function(){
-			const userBody = {
-				gender : $("#gender_cal").val(),
-				weight : $("#weight").val(),
-				height : $("#height").val(),
-				age : $("#age").val(),
-				active : $("input[name='active']:checked").val()
-			}
-			if(!userBody.weight||!userBody.height||!userBody.age||!userBody.active){
-				alert("모든 정보를 입력해 주세요")
-				return;
-			}
-			
-			console.log("보내는 데이터:", userBody); 
-			
-			$.ajax({
-				type : "POST",
-				url : "/usercal",
-				data : JSON.stringify(userBody),
-				contentType:"application/json;charset=UTF-8"
-			}).done(function(response){
-				alert(response.data)
-				location.href = "/";
-			}).fail(function(error){
-				console.log(error)
-			})
 		}
-	
 }
 
 userObject.init();

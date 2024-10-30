@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.webts.DTO.ResponseDTO;
 import com.example.webts.domain.User;
 import com.example.webts.domain.UserBody;
-import com.example.webts.repository.UserRepository;
 import com.example.webts.service.UserBodyService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class UserBodyController {
 		double BMR = userBodyService.userGender(userBody);
 		double total = userBodyService.userActive(userBody.getActive(), BMR);
 		
-		UserBody userBodyUpdate = userBodyService.userBodySave(userBody, user, total);
+		UserBody userBodyUpdate = userBodyService.userBodySave(userBody, user, total, BMR);
 		session.setAttribute("userbody", userBodyUpdate);
 		
 		return new ResponseDTO<>(HttpStatus.OK.value(), user.getUsername()+"님 계산완료");

@@ -32,15 +32,15 @@
     <input type="hidden" id="gender_cal" name="gender" value="${principal.gender}">
     <div class="mb-3">
         <label for="weight" class="form-label">몸무게:</label>
-        <input type="text" class="form-control" placeholder="Enter weight" id="weight" name="weight" autocomplete="weight">
+        <input type="text" class="form-control" placeholder="Enter weight" id="weight" name="weight" autocomplete="weight" value="${userbody.weight}">
     </div>
     <div class="mb-3">
         <label for="height" class="form-label">키:</label>
-        <input type="text" class="form-control" placeholder="Enter height" id="height" name="height" autocomplete="height">
+        <input type="text" class="form-control" placeholder="Enter height" id="height" name="height" autocomplete="height" value="${userbody.height}">
     </div>
     <div class="mb-3">
-        <label for="age" class="form-label">나이:</label>
-        <input type="text" class="form-control" placeholder="Enter age" id="age" name="age" autocomplete="age">
+     	<label for="age" class="form-label">나이:</label>
+        <input type="text" class="form-control" placeholder="Enter age" id="age" name="age" autocomplete="age" value="${userbody.age}">
     </div>
     <div class="mb-3">
         <label class="form-label">활동량:</label>
@@ -51,5 +51,6 @@
     <button id="btn-cal" type="submit" class="btn btn-secondary">계산</button>
 </form>
 
-<script src="js/user.js"></script>    
+<script src="js/user.js"></script>
+<script src="js/userbody.js"></script>    
 <%@ include file="../layout/footer.jsp"%>

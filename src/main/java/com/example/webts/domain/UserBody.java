@@ -38,6 +38,8 @@ public class UserBody {
 	
 	private String active;
 	
+	private double BMR;
+	
 	private double total;
 	
 	@OneToOne(fetch=FetchType.EAGER)

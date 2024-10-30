@@ -19,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.webts.DTO.ResponseDTO;
 import com.example.webts.domain.User;
 import com.example.webts.domain.UserBody;
+import com.example.webts.repository.UserBodyRepository;
+import com.example.webts.service.UserBodyService;
 import com.example.webts.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,9 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
+	
+	private final UserBodyRepository userBodyRepository;
+	
 // 회원가입	
 	@GetMapping("/signup")
 	public String signup() {
@@ -56,23 +61,34 @@ public class UserController {
 	public String login() {
 		return "user/login";
 	}
-	
 	@PostMapping("/login")
 	public String login(String email, String password, Model model, HttpSession session) {
-		User user = userService.userFind(email);
-		
-		if(user != null && user.getEmail() != null) {	
-			if(password.equals(user.getPassword())){
-				session.setAttribute("principal", user);
-				return "redirect:/";
-			}else {
-				model.addAttribute("passwordER", "유효하지 않은 비밀번호");
-			}
-		}else {
-			model.addAttribute("emailER", " 유효하지 않은 이메일");			
-		}
-		return "user/login";
+	    User user = userService.userFind(email);
+
+	    // 이메일이 유효한지 확인
+	    if (user == null || user.getEmail() == null) {
+	        model.addAttribute("emailER", "유효하지 않은 이메일");
+	        return "user/login";
+	    }
+
+	    // 비밀번호 확인
+	    if (!password.equals(user.getPassword())) {
+	        model.addAttribute("passwordER", "유효하지 않은 비밀번호");
+	        return "user/login";
+	    }
+
+	    // 세션에 사용자 정보 저장
+	    session.setAttribute("principal", user);
+
+	    // 사용자 몸체 정보 가져오기
+	    userBodyRepository.findByUser(user).ifPresent(userBodyUpdate -> {
+	        session.setAttribute("userbody", userBodyUpdate);
+	    });
+
+	    return "redirect:/";
 	}
+
+
 	@GetMapping("/logout")
 	public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
 		session.removeAttribute("principal");
