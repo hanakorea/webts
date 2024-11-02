@@ -9,8 +9,8 @@ const userBodyObject = {
             this.selectTab(e.currentTarget);
         });
 
-		const $defaultButton = $('#weight-maintenance-button');
-		        this.selectTab($defaultButton[0]); // 기본적으로 체중 유지 탭 선택
+		const defaultButton = $('#weight-maintenance-button');
+		        this.selectTab(defaultButton[0]); // 기본적으로 체중 유지 탭 선택
 	  },
 
     cal: function() {
@@ -107,7 +107,3 @@ const userBodyObject = {
 
 userBodyObject.init();
 
-$(document).ready(function() {
-    const userResult = $('#userResult').text();
-    const totalKcal = parseInt(userResult);
-});

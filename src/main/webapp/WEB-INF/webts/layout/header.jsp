@@ -23,7 +23,7 @@
           <a class="nav-link active" aria-current="page" href="#">뭐하지</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">피드</a>
+          <a class="nav-link" href="/postmain">피드</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,12 +1,15 @@
 package com.example.webts.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.webts.DTO.ResponseDTO;
+import com.example.webts.DTO.UserDTO;
 import com.example.webts.domain.User;
 import com.example.webts.domain.UserBody;
 import com.example.webts.repository.UserBodyRepository;
@@ -33,6 +37,8 @@ public class UserController {
 	
 	private final UserBodyRepository userBodyRepository;
 	
+	private final ModelMapper modelMapper;
+	
 // 회원가입	
 	@GetMapping("/signup")
 	public String signup() {
@@ -41,8 +47,10 @@ public class UserController {
 	
 	@PostMapping("/signup")
 	@ResponseBody
-	public ResponseDTO<?> signup(@RequestBody User user) {
-
+	public ResponseDTO<?> signup(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+		
+		User user = modelMapper.map(userDTO,User.class);
+		
 		User userCheckID = userService.userID(user.getUsername());
 		User userCheckEmail = userService.userFind(user.getEmail());
 		
