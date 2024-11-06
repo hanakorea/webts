@@ -35,6 +35,9 @@ public class Post {
 	@Column(nullable = false)
 	private String content;
 	
+	@Lob
+	private String summary;
+	
 	@CreationTimestamp
 	private Timestamp creatDate;
 	

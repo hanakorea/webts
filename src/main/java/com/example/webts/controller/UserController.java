@@ -1,5 +1,8 @@
 package com.example.webts.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
@@ -10,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +52,17 @@ public class UserController {
 	@PostMapping("/signup")
 	@ResponseBody
 	public ResponseDTO<?> signup(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			
+			List<String> errors = new ArrayList<>();
+			
+ 			for(FieldError error : bindingResult.getFieldErrors()) {
+				errors.add( error.getDefaultMessage()); // (error의 필드, error의 message)
+			}
+ 			return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), errors);
+		}
+		
 		
 		User user = modelMapper.map(userDTO,User.class);
 		
@@ -111,8 +126,21 @@ public class UserController {
 	
 	@PutMapping("/userinfo")
     @ResponseBody
-    public ResponseDTO<?> userUpdate(@RequestBody User user, HttpSession session) {
+    public ResponseDTO<?> userUpdate(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult, HttpSession session) {
         try {
+        	
+    		if(bindingResult.hasErrors()) {
+    			
+    			List<String> errors = new ArrayList<>();
+    			
+     			for(FieldError error : bindingResult.getFieldErrors()) {
+    				errors.add( error.getDefaultMessage()); // (error의 필드, error의 message)
+    			}
+     			return new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), errors);
+    		}
+    		
+    		
+    		User user = modelMapper.map(userDTO,User.class);
             User userCheck = userService.userID(user.getUsername());
 
             if (userCheck.getUsername() == null || userCheck.getUsername().equals(user.getUsername())) {

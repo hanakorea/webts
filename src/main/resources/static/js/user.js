@@ -27,7 +27,6 @@ const userObject = {
 			alert("모든 항목을 입력해 주세요");
 			return;
 		}
-		
 		$.ajax({
 			type:"POST",
 			url : "/signup",
@@ -37,7 +36,7 @@ const userObject = {
 			alert(response.data);
 			if(response.status == 200)
 				location.href = "/";
-/*			else{
+			else{
 					const result = response.data
 					let msg = '';
 					
@@ -49,17 +48,19 @@ const userObject = {
 						msg += result.email;
 					
 					alert(msg);
-				}	*/
+				}	
 		}).fail(function(error){
 			console.log(error);
 		})
+		
 	},
 	
 	update : function(){
 		const user={
 			username: $("#username").val(),
 			password: $("#password").val(),
-			email: $("#email").val()
+			email: $("#email").val(),
+			gender:$("#gender").val()
 		}
 		
 		if(!user.username||!user.password){
@@ -76,11 +77,23 @@ const userObject = {
 		}).done(function(response) {
 		    alert(response.data);
 			if(response.status == 200){
+					
 			 if(!confirm("메인으로 이동하시겠습니까?")){
 				return;
 				}
 				location.href = '/';
-			}
+
+				}else{
+					const result = response.data
+					let msg = '';
+					
+					if(result.username != null)
+						msg += result.username + "\n";
+					if(result.password != null)
+						msg += result.password ;
+
+					alert(msg);
+				}
 		}).fail(function(error) {
 		    console.log(error);
 		});

@@ -26,7 +26,7 @@ public class UserDTO {
 	
 	@NotNull(message = "eamile은 null이면 안됩니다")
 	@NotBlank(message = "eamile은 입력해주세요")
-	@Email(message="형식에 맞게 입력해주세요")
+	@Email(message="email형식에 맞게 입력해주세요")
 	private String email;
 	
 	@NotNull(message = "성별을 눌러주세요")

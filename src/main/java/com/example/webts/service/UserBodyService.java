@@ -23,6 +23,7 @@ public class UserBodyService {
 	    if (existingUserBody == null) {
 	        userBody.setUser(user);
 	        userBody.setBMR(BMR);
+	        userBody.setTotal(total);
 	        return userBodyRepository.save(userBody); 
 	    }
 	    // 기존 UserBody가 있을 경우 total 값을 업데이트
