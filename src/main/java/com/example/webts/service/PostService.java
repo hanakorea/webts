@@ -52,11 +52,29 @@ public class PostService {
 		postRepository.save(post);
 	}
 	
-	  public Post checkPost(Integer postId) {
-	      return postRepository.findById(postId).orElse(new Post());  // 게시물 ID로 찾고 없으면 새 객체 반환
-	    }
+  public Post checkPost(Integer postId) {
+      return postRepository.findById(postId).orElse(new Post());  // 게시물 ID로 찾고 없으면 새 객체 반환
+    }
+  
 	@Transactional(readOnly = true)
 	public Page<Post> getPosts(Pageable pageable){
 		return postRepository.findAll(pageable);
+	}
+	
+	
+	public void updatePost(Integer id, Post p) {
+		Post post = postRepository.findById(p.getId()).get();
+		post.setTitle(p.getTitle());
+		post.setContent(p.getContent());
+		post.setSummary(summary(p.getContent()));
+		postRepository.save(post);
+	}
+	
+	public void deletePost(Integer id) {
+		postRepository.deleteById(id);
+	}
+	
+	public Page<Post> getMyList(User user, Pageable pageable){
+		return postRepository.findByUserId(user, pageable);	
 	}
 }
