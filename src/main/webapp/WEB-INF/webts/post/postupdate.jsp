@@ -2,7 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp" %>
 <div class="container mt-3">
-   <form method="POST" action="/post/update/${postInfo.id }">
+    <c:if test="${not empty errors}">
+        <div class="alert alert-danger">
+                <c:forEach var="error" items="${errors}">
+                    <p>${error}</p>
+                </c:forEach>
+        </div>
+    </c:if>
+   <form method="POST" action="/post/update/${postInfo.id}">
      <div class="mb-3 mt-3">
        <label for="title" class="form-label" >Title:</label>
        <input type="text" class="form-control" id="title" placeholder="Enter title" name="title" value="${postInfo.title}">

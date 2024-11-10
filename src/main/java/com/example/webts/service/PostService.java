@@ -63,7 +63,7 @@ public class PostService {
 	
 	
 	public void updatePost(Integer id, Post p) {
-		Post post = postRepository.findById(p.getId()).get();
+		Post post = postRepository.findById(id).get();
 		post.setTitle(p.getTitle());
 		post.setContent(p.getContent());
 		post.setSummary(summary(p.getContent()));
@@ -74,7 +74,7 @@ public class PostService {
 		postRepository.deleteById(id);
 	}
 	
-	public Page<Post> getMyList(User user, Pageable pageable){
-		return postRepository.findByUserId(user, pageable);	
+	public Page<Post> getMyList(Integer userId, Pageable pageable){
+		return postRepository.findByUserId(userId, pageable);	
 	}
 }

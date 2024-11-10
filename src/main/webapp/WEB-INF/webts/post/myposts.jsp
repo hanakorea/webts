@@ -9,7 +9,7 @@
         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
             <h3>${post.title}</h3>
             <p>${post.summary}</p> 
-            <button onclick="location.href='/post/detail?id=${post.id}'">상세보기</button>
+            <button onclick="location.href='/post/detail/${post.id}'">상세보기</button>
         </div>
     </c:forEach>
     </c:if>

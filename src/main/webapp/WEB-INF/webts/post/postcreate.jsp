@@ -2,6 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp" %>
 <div class="container mt-3">
+    <!-- 전체 오류 메시지 출력 -->
+    <c:if test="${not empty errors}">
+        <div class="alert alert-danger">
+                <c:forEach var="error" items="${errors}">
+                    <p>${error}</p>
+                </c:forEach>
+        </div>
+    </c:if>
    <form method="post" action="/post/create">
      <div class="mb-3 mt-3">
        <label for="title" class="form-label">Title:</label>

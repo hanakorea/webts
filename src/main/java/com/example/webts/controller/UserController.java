@@ -115,6 +115,7 @@ public class UserController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
 		session.removeAttribute("principal");
+		session.removeAttribute("userbody");
 		redirectAttributes.addFlashAttribute("logoutMsg", "성공적으로 로그아웃되셨습니다");
 		return "redirect:/";
 	}

@@ -11,5 +11,5 @@ import com.example.webts.domain.User;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer>{
-  Page<Post> findByUserId(User user, Pageable pageable);
+  Page<Post> findByUserId(Integer userId, Pageable pageable);
 }

@@ -12,7 +12,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new AuthInterceptor()) 
-		.addPathPatterns("/", "/userinfo","/post/**");
+		.addPathPatterns("/", "/userinfo","/post/**","/myposts", "/reply/**");
 	}
 	
 	@Bean
